@@ -19,6 +19,6 @@ jobs:
         sudo apt-get install -y lzma libbz2-dev libcurl4-openssl-dev
         git submodule init
         git submodule update --init --recursive
-	mkdir build
+        mkdir build
         make -C lib/htslib
         make
