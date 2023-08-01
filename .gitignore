@@ -2,3 +2,4 @@ amplisim
 build/
 .DS_Store
 testdata/
+.vscode/
