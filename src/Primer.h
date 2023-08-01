@@ -4,13 +4,10 @@
 #include <string>
 
 
-// define a data class Primer to store the information of a primer
-// the class has the following attributes:
-// - chr: the chromosome of the primer
-// - start_left: the start position of the left primer
-// - end_left: the end position of the left primer
-// - start_right: the start position of the right primer
-// - end_right: the end position of the right primer
+/**
+ * @brief A class to store the information of a primer
+ * 
+ */
 class Primer{
     public:
         std::string chr;
@@ -21,7 +18,16 @@ class Primer{
         Primer(std::string chr, int start_left, int end_left, int start_right, int end_right);
 };
 
-// define the contructor of the Primer class
+
+/**
+ * @brief Construct a new Primer object
+ * 
+ * @param chr The chromosome of the primer.
+ * @param start_left The start position of the left primer.
+ * @param end_left The end position of the left primer.
+ * @param start_right The start position of the right primer.
+ * @param end_right The end position of the right primer.
+ */
 Primer::Primer(std::string chr, int start_left, int end_left, int start_right, int end_right){
     this->chr = chr;
     this->start_left = start_left;
