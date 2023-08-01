@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <string>
 #include <sstream>
+#include <cassert>
 #include <htslib/faidx.h>
 
 #include "Primer.h"
@@ -58,8 +59,8 @@ int read_fasta(std::string fasta_ref_gemome, std::unordered_map<std::string, std
     // close the fasta file
     fai_destroy(fai);
 
-    // assert that the number of names and sequences are the same
-    assert(names.size() == seqs.size());
+    // assert that the chromosomes map is not empty
+    assert(!chromosomes.empty());
 
     return 0;
 
