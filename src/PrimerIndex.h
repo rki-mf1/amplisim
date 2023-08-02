@@ -11,10 +11,10 @@
 #include "Primer.h"
 
 
-// define a class to build an index for the primers
-// the class is called PrimerIndex
-// the class has three private members: a pointer to a vector of Primer objects, an unordered map of indices, and an unordered map of runlengths
-// the class has one public constructor, one public method to get a primer's index, and one public method to get a primer's runlength
+/**
+ * @brief A class to store an index of primers.
+ * 
+ */
 class PrimerIndex{
     private:
         std::vector<Primer> *primers;

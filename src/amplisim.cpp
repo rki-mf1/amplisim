@@ -9,6 +9,8 @@
 #include <htslib/faidx.h>
 
 #include "Primer.h"
+#include "PrimerIndex.h"
+#include "util.h"
 
 
 
@@ -100,7 +102,7 @@ int read_bed(std::string bed_file, std::vector<Primer> &primers){
     std::string chrom;
     int left_start, left_end, right_start, right_end;
 
-    while (std::getline(bed, line)){
+    while (std::getline(bed, line) && !line.empty()){       // avoid getting trapped in eof artefacts (empty lines)
 
         // split the line by tab
         std::vector<std::string> fields;
@@ -147,6 +149,16 @@ int read_bed(std::string bed_file, std::vector<Primer> &primers){
 
 int main(int argc, char const *argv[]){
 
+    // check that the number of command line arguments is correct
+    if (argc != 3){
+        std::cerr << "Usage: amplisim <reference_genome.fa> <primers.bed>" << std::endl;
+        return 1;
+    }
+
+    // print both input files to the user
+    std::cout << "Reference genome: " << argv[1] << std::endl;
+    std::cout << "Primer BED file: " << argv[2] << std::endl;
+
     // convert the reference genome file name to a string
     std::string ref_genome = argv[1];
 
@@ -159,11 +171,6 @@ int main(int argc, char const *argv[]){
     if (ret != 0){
         std::cerr << "Error reading the reference FASTA file." << std::endl;
         return 1;
-    }
-
-    // loop over the chromosomes and print the name and sequence
-    for (auto it = chromosomes.begin(); it != chromosomes.end(); it++){
-        std::cout << it->first << "\t" << it->second << std::endl;
     }
 
     // the second command line argument is the name of the BED file
@@ -180,12 +187,17 @@ int main(int argc, char const *argv[]){
         return 1;
     }
 
-    // loop over the primers and print the information
-    for (auto it = primers.begin(); it != primers.end(); it++){
-        std::cout << it->chr << "\t" << it->start_left << "\t" << it->end_left << "\t" << it->start_right << "\t" << it->end_right << std::endl;
+    // call the print_amplicons function
+    print_amplicons(primers, chromosomes);
+
+    // create a PrimerIndex object
+    PrimerIndex primer_index(primers);
+
+    // print the index and runlengths for all the chromosomes in the PrimerIndex object
+    for (auto chr : chromosomes){
+        std::cout << chr.first << "\t" << primer_index.get_index(chr.first) << "\t" << primer_index.get_runlength(chr.first) << std::endl;
     }
 
+
     return 0;
-
-
 }
