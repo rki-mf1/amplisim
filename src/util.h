@@ -3,11 +3,6 @@
 
 #include <string>
 #include <iostream>
-#include <vector>
-#include <unordered_map>
-
-#include "Primer.h"
-
 
 
 /**
@@ -16,7 +11,7 @@
  * @param seq The sequence to reverse complement.
  * @return std::string The reverse complement of the sequence.
  */
-std::string reverse_complement(std::string seq){
+static std::string reverse_complement(std::string seq){
 
     // create a string to store the reverse complement
     std::string rev_comp;
@@ -43,51 +38,6 @@ std::string reverse_complement(std::string seq){
 
     return rev_comp;
 }
-
-
-/**
- * @brief Print the amplicons to the standard output.
- * 
- * @param primers A vector of Primer objects.
- * @param chromosomes An unordered map to store the names (key) and sequences (value) of the chromosomes.
- * @return void
- */
-void print_amplicons(std::vector<Primer> &primers, std::unordered_map<std::string, std::string> &chromosomes){
-
-    // loop over the primers
-    for (auto p : primers){
-
-        // check if the primer's chromosome name is in the chromosomes map
-        if (chromosomes.find(p.chr) == chromosomes.end()){
-            // print a warning message to the user if the chromosome name is not in the chromosomes map
-            std::cerr << "Warning: the chromosome name " << p.chr << " is not in the reference FASTA file." << std::endl;
-            // skip the current primer
-            continue;
-        }
-
-        // print the chromosome name
-        std::cout << p.chr << "\t";
-
-        // print the start and end position of the left primer
-        std::cout << p.start_left << "\t" << p.end_left << "\t";
-
-        // print the sequence of the left primer
-        std::cout << chromosomes[p.chr].substr(p.start_left, p.end_left - p.start_left) << std::endl;
-
-        // print the chromosome name
-        std::cout << p.chr << "\t";
-
-        // print the start and end position of the right primer
-        std::cout << p.start_right << "\t" << p.end_right << "\t";
-
-        // print the reverse complement of the right primer
-        std::cout << reverse_complement(chromosomes[p.chr].substr(p.start_right, p.end_right - p.start_right)) << std::endl;
-
-    }
-
-}
-
-
 
 
 

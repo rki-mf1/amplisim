@@ -48,8 +48,11 @@ int PrimerIndex::create_primer_index(){
 
     int previousChromIndex = 0;
 
+    // cast the size of the vector of primers to an integer
+    int n_primers = (int) this->primers->size();
+    
     // loop over the primers
-    for (int i = 0; i < this->primers->size(); i++){
+    for (int i = 0; i < n_primers; i++){
 
         // get the chromosome of the current primer
         std::string current_chr = this->primers->at(i).chr;
