@@ -1,4 +1,4 @@
-![CI](https://github.com/krannich479/amplisim/actions/workflows/ci.yml/badge.svg?event=push)
+[![build](https://github.com/krannich479/amplisim/actions/workflows/build.yml/badge.svg)](https://github.com/krannich479/amplisim/actions/workflows/build.yml)
 # amplisim
 Plain simple amplicon sequence simulator for in-silico genomic sequencing assays
 
