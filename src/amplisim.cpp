@@ -10,7 +10,7 @@
 
 #include "Primer.h"
 #include "PrimerIndex.h"
-#include "util.h"
+#include "AmpliconGenerator.h"
 
 
 
@@ -187,17 +187,30 @@ int main(int argc, char const *argv[]){
         return 1;
     }
 
-    // call the print_amplicons function
-    print_amplicons(primers, chromosomes);
-
     // create a PrimerIndex object
     PrimerIndex primer_index(primers);
 
-    // print the index and runlengths for all the chromosomes in the PrimerIndex object
-    for (auto chr : chromosomes){
+    // for all chromosomes, print get_index and get_runlength from the PrimerIndex object (tab separated)
+    for (auto const &chr : chromosomes){
         std::cout << chr.first << "\t" << primer_index.get_index(chr.first) << "\t" << primer_index.get_runlength(chr.first) << std::endl;
     }
 
+    // create an empty vector of strings to store the amplicons
+    std::vector<std::string> amplicons;
+
+    // create an AmpliconGenerator object
+    AmpliconGenerator amplicon_generator(primers, chromosomes, primer_index);
+
+    // call the generate_amplicons function and catch the return value
+    ret = amplicon_generator.generate_amplicons(amplicons);
+
+    // check if the function was executed correctly
+    if (ret != 0){
+        std::cerr << "Error generating the amplicons." << std::endl;
+        return 1;
+    }
+
+    
 
     return 0;
 }
