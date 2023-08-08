@@ -184,14 +184,17 @@ static int read_primer(std::string bed_file, std::vector<Primer> &primers){
 /**
  * @brief Write the amplicons to a FASTA file.
  * 
- * @param fasta_file The name of the FASTA file.
+ * @param amplicons_fasta The name of the FASTA file.
  * @param amplicons A vector of strings containing the amplicons.
+ * @param vec_reps A vector of integers containing the number of replications for each amplicon.
  * @return int 0 if the function was executed correctly, 1 otherwise.
  */
-static int write_amplicons(std::string fasta_file, std::vector<std::string> &amplicons){
+static int write_amplicons(std::string amplicons_fasta,
+                           std::vector<std::string> &amplicons,
+                           std::vector<int> &vec_reps){
 
     // open the FASTA file
-    std::ofstream fasta(fasta_file);
+    std::ofstream fasta(amplicons_fasta);
 
     // check if the file was opened correctly
     if (!fasta.is_open()){
@@ -205,10 +208,24 @@ static int write_amplicons(std::string fasta_file, std::vector<std::string> &amp
     // cast the size of the amplicons vector an int
     int n_amplicons = amplicons.size();
 
+    // insert idx
+    int idx_insert = 0;
+    int count_per_insert = 1;
+
     // loop over the amplicons and write them to the FASTA file
-    for (int i = 0; i < n_amplicons; i++){
-        fasta << ">amplicon_" << i << std::endl;
-        fasta << amplicons[i] << std::endl;
+    for (int idx_amplicon = 0; idx_amplicon < n_amplicons; idx_amplicon++){
+        fasta << ">amplicon_" << idx_insert << "_" << idx_amplicon << std::endl;
+        fasta << amplicons[idx_amplicon] << std::endl;
+
+        // check if the current amplicon is the last one of the current insert
+        if (count_per_insert == vec_reps[idx_insert]){
+            // if the current amplicon is the last one of the current insert, reset the counter and increase the insert index
+            count_per_insert = 1;
+            idx_insert++;
+        } else {
+            // if the current amplicon is not the last one of the current insert, increase the counter
+            count_per_insert++;
+        }
     }
 
     // close the FASTA file
@@ -217,7 +234,6 @@ static int write_amplicons(std::string fasta_file, std::vector<std::string> &amp
     return 0;
 
 }
-
 
 
 

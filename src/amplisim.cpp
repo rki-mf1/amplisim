@@ -73,8 +73,13 @@ int main(int argc, char const *argv[]){
         return 1;
     }
 
+    std::vector<int> vec_reps = amplicon_generator.get_vec_reps();
+    assert(vec_reps.size() > 0);
+    assert(std::accumulate(vec_reps.begin(), vec_reps.end(), 0) == amplicons.size());
+
     // use the write_amplicons function to write the amplicons to a file
-    ret = write_amplicons("amplicons.fa", amplicons);
+    ret = write_amplicons("amplicons.fa", amplicons, vec_reps);
     
+
     return 0;
 }
