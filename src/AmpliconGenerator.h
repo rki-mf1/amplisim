@@ -8,6 +8,7 @@
 
 #include "Primer.h"
 #include "PrimerIndex.h"
+#include "Replicator.h"
 
 
 
@@ -17,12 +18,14 @@
  */
 class AmpliconGenerator{
     private:
+        std::vector<int> vec_reps;  // RAII (Resource Acquisition Is Initialization)
         std::vector<Primer> *primers;
         std::unordered_map<std::string, std::string> *chromosomes;
         PrimerIndex *primer_index;
     public:
         AmpliconGenerator(std::vector<Primer> &primers, std::unordered_map<std::string, std::string> &chromosomes, PrimerIndex &primer_index);
         int generate_amplicons(std::vector<std::string> &amplicons);
+        std::vector<int> get_vec_reps();
 };
 
 

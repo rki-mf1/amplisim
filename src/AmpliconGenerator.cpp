@@ -23,7 +23,6 @@ AmpliconGenerator::AmpliconGenerator(std::vector<Primer> &primers, std::unordere
  */
 int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons){
 
-    // assert that the input vector is empty
     assert(amplicons.empty());
 
     // print a message to the user
@@ -43,7 +42,6 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons){
         // for the chromosome name give me the runlength from the primer index
         int runlength = this->primer_index->get_runlength(chromosome.first);
 
-        // assert that the runlength is greater than 0
         assert(runlength > 0);
 
         // iterate over the vector of primers from the index to the index plus the runlength
@@ -53,11 +51,8 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons){
             int left_start = this->primers->at(i).start_left;
             int left_end = this->primers->at(i).end_left;
 
-            // assert that the start position is less than the end position
             assert(left_start < left_end);
-            // assert that the end position is less than the length of the chromosome
             assert(left_end < this->chromosomes->at(chromosome.first).length());
-            // assert that the start position is greater than 0
             assert(left_start > 0);
 
             // get the sequence of the left primer
@@ -67,11 +62,8 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons){
             int right_start = this->primers->at(i).start_right;
             int right_end = this->primers->at(i).end_right;
 
-            // assert that the start position is less than the end position
             assert(right_start < right_end);
-            // assert that the end position is less than the length of the chromosome
             assert(right_end < this->chromosomes->at(chromosome.first).length());
-            // assert that the start position is greater than 0
             assert(right_start > 0);
 
             // get the sequence of the right primer
@@ -82,10 +74,24 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons){
             std::string insert = this->chromosomes->at(chromosome.first).substr(left_end, right_start - left_end);
 
             // create the amplicon
-            std::string amplicon = left_primer + insert + right_primer;
+            // generate insert sequences with errors
+            Replicator replicator(0.01);
+            std::vector<std::string> replicates;
+            int reps;
+            int ret = replicator.replicate_with_errors(insert, replicates, 20, 2, reps);
+            if (ret != 0){
+                std::cerr << "Error replicating the insert sequence." << std::endl;
+                return 1;
+            }
 
-            // add the amplicon to the vector
-            amplicons.push_back(amplicon);
+            this->vec_reps.push_back(reps);
+
+            // generate amplification products from the replicates
+            for (auto &replicate : replicates){
+                std::string amplicon = left_primer + replicate + right_primer;
+                amplicons.push_back(amplicon);
+            }
+
         }
 
     }
@@ -100,5 +106,12 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons){
 }
 
 
-
+/**
+ * @brief Get the vector of replications.
+ * 
+ * @return std::vector<int> A vector of integers.
+ */
+std::vector<int> AmpliconGenerator::get_vec_reps(){
+    return this->vec_reps;
+}
 
