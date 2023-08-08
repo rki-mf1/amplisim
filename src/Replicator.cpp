@@ -16,7 +16,7 @@ Replicator::Replicator(double error_rate) : error_rate(error_rate) {}
  * @param base the base to mutate
  * @return char the mutated base unequal to base
  */
-char Replicator::mutate(char base){
+char Replicator::mutate(const char base){
 
     // vector of possible bases
     std::vector<char> bases = {'A', 'C', 'G', 'T'};

@@ -5,9 +5,8 @@
 #include <vector>
 #include <random>
 #include <ctime>
-
-#include <iostream> // can be deleted later
-
+#include <algorithm>
+#include <iostream>
 
 
 class Replicator {
@@ -15,7 +14,7 @@ class Replicator {
 
     private:
         double error_rate;
-        char mutate(char base);
+        char mutate(const char base);
 
     public:
         Replicator(double error_rate);
