@@ -11,10 +11,10 @@ CC = $(CXX)
 
 # Additional libraries for compilation of all builds types
 override CXXFLAGS+=-I lib/htslib/
-#override CXXFLAGS+=-I argparse/include/
 
 # Libraries for the linker (HTSlib)
 override LDLIBS+=lib/htslib/libhts.a
+override LDLIBS+=-largp
 override LDLIBS+=-lz -lpthread
 # Libraries for the linker (HTSlib - required for network support and cloud storage)
 override LDLIBS+=-lcurl
