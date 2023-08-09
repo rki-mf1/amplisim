@@ -24,7 +24,7 @@ override LDLIBS+=-llzma -lbz2
 # Add linker flag for macOS (Darwin kernel)
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
-	override LDLIBS+=-largp
+override LDLIBS+=-largp
 endif
 
 # Date and version number from git
