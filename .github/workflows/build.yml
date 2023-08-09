@@ -34,7 +34,7 @@ jobs:
     - name: Set up system on macOS
       if: matrix.config.os == 'macos-12'
       run: |
-        brew install lzma curl glib-openssl
+        brew install xz curl glib-openssl
         git submodule init
         git submodule update --init --recursive
 
