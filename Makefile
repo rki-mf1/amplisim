@@ -11,7 +11,6 @@ CC = $(CXX)
 
 # Additional libraries for compilation of all builds types
 override CXXFLAGS+=-I lib/htslib/
-#override CXXFLAGS+=-I argparse/include/
 
 # Libraries for the linker (HTSlib)
 override LDLIBS+=lib/htslib/libhts.a
@@ -20,6 +19,12 @@ override LDLIBS+=-lz -lpthread
 override LDLIBS+=-lcurl
 # Libraries for the linker (HTSlib - CRAM support)
 override LDLIBS+=-llzma -lbz2
+
+# Add linker flag for macOS (Darwin kernel)
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+override LDLIBS+=-largp
+endif
 
 # Date and version number from git
 DATE := on $(shell git log --pretty=format:"%cd" --date=iso | cut -f 1,2 -d " " | head -n 1)
