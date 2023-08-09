@@ -23,23 +23,24 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up system on Linux
-      if: matrix.config.os == 'ubuntu-latest'
+    - name: Set up system and build on Linux
+      if: runner.os == 'Linux'
       run: |
         sudo apt-get update -y
         sudo apt-get install -y lzma libbz2-dev libcurl4-openssl-dev
         git submodule init
         git submodule update --init --recursive
+        mkdir build
+        make -C lib/htslib
+        make
 
-    - name: Set up system on macOS
-      if: matrix.config.os == 'macos-12'
+    - name: Set up system and build on macOS
+      if: runner.os == 'macOS'
       run: |
         brew install xz curl glib-openssl
         git submodule init
         git submodule update --init --recursive
-
-    - name: Build amplisim
-      run: |
         mkdir build
         make -C lib/htslib
         make
+
