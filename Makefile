@@ -14,7 +14,7 @@ override CXXFLAGS+=-I lib/htslib/
 
 # Libraries for the linker (HTSlib)
 override LDLIBS+=lib/htslib/libhts.a
-override LDLIBS+=-largp
+#override LDLIBS+=-largp
 override LDLIBS+=-lz -lpthread
 # Libraries for the linker (HTSlib - required for network support and cloud storage)
 override LDLIBS+=-lcurl
