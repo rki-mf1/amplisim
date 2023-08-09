@@ -14,12 +14,18 @@ override CXXFLAGS+=-I lib/htslib/
 
 # Libraries for the linker (HTSlib)
 override LDLIBS+=lib/htslib/libhts.a
-#override LDLIBS+=-largp
+override LDLIBS+=-largp
 override LDLIBS+=-lz -lpthread
 # Libraries for the linker (HTSlib - required for network support and cloud storage)
 override LDLIBS+=-lcurl
 # Libraries for the linker (HTSlib - CRAM support)
 override LDLIBS+=-llzma -lbz2
+
+# Add linker flag for macOS (Darwin kernel)
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+	override LDLIBS+=-largp
+endif
 
 # Date and version number from git
 DATE := on $(shell git log --pretty=format:"%cd" --date=iso | cut -f 1,2 -d " " | head -n 1)
