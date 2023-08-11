@@ -65,13 +65,10 @@ int Replicator::replicate_with_errors(std::string &insert,
     std::normal_distribution<> d(nb_replications, nb_replications_variance);
     int nb_replications_random = d(gen);
 
-    // sanity check: the number of replications must be at least 1
+    // fallback: the number of replications must be at least 1
     if (nb_replications_random < 1) {
         nb_replications_random = 1;
     }
-
-    // create a random seed for rand() using the current time
-    srand( (unsigned)time( NULL ) );
 
 #ifdef DEBUG
     std::cout << "Number of replications: " << nb_replications_random << std::endl;
