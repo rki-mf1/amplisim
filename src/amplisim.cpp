@@ -12,15 +12,32 @@ int main(int argc, char *argv[]){
 
     struct arguments arguments;
     arguments.output_file = NULL;
-    arguments.seed = 1;
+    arguments.seed = -1;
     
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
+
+    // if seed unset, use time(NULL)
+    if (arguments.seed == -1){
+        arguments.seed = time(NULL);
+    }
+    srand( (unsigned) arguments.seed );
 
     std::string ref_genome = arguments.args[0];
     std::string bed_file   = arguments.args[1];
 
+    // print a message to the user
+    std::cout << "Running amplisim..." << std::endl;
+    std::cout << "=== Arguments =====" << std::endl;
     std::cout << "Reference genome: " << ref_genome << std::endl;
-    std::cout << "Primer BED file: "  << bed_file   << std::endl;
+    std::cout << "Primer BED file : " << bed_file   << std::endl;
+    std::cout << "Seed            : " << arguments.seed << std::endl;
+    if (arguments.output_file == NULL){
+        std::cout << "Output file     : amplicons.fa" << std::endl;
+    }
+    else{
+        std::cout << "Output file     : " << arguments.output_file << std::endl;
+    }
+    std::cout << "===================" << std::endl;
 
     // create an unordered map to store the names (key) and sequences (value) of the chromosomes
     std::unordered_map<std::string, std::string> chromosomes;

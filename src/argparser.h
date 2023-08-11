@@ -34,6 +34,7 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state){
     switch (key){
         case 'o':
             arguments->output_file = arg;
+            assert(arguments->seed > 0);
             break;
         case 's':
             arguments->seed = atoi(arg);

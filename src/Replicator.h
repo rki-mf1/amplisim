@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <random>
-#include <ctime>
 #include <algorithm>
 #include <iostream>
 
@@ -13,6 +12,7 @@ class Replicator {
 
 
     private:
+        unsigned int seed = time(NULL);
         double error_rate;
         char mutate(const char base);
 
