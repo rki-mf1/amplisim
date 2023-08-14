@@ -71,7 +71,7 @@ int Replicator::replicate_with_errors(std::string &insert,
     }
 
 #ifdef DEBUG
-    std::cout << "Number of replications: " << nb_replications_random << std::endl;
+    std::cout << "Number of replications: " << nb_replications_random+1 << std::endl;       // +1 to account for the original sequence
 #endif
     reps = nb_replications_random;
 
@@ -116,5 +116,8 @@ int Replicator::replicate_with_errors(std::string &insert,
         replicates.push_back(replicate);
     }
     
+    // we increase the number of replications by 1 to account for the original sequence
+    reps++;
+
     return 0;
 }
