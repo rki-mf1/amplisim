@@ -26,6 +26,7 @@ struct arguments {
     char *args[2];    // reference and primer files
     char *output_file;
     int seed;
+    bool verbose = false;
 };
 
 static error_t parse_opt(int key, char *arg, struct argp_state *state){
@@ -34,10 +35,11 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state){
     switch (key){
         case 'o':
             arguments->output_file = arg;
-            assert(arguments->seed > 0);
+            arguments->verbose = true;
             break;
         case 's':
             arguments->seed = atoi(arg);
+            assert(arguments->seed > 0);
             break;
         case ARGP_KEY_ARG:
             if (state->arg_num >= 2){
