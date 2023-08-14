@@ -53,9 +53,10 @@ static std::string reverse_complement(std::string seq){
  * 
  * @param fasta_file The name of the FASTA file.
  * @param chromosomes An unordered map to store the names (key) and sequences (value) of the chromosomes.
+ * @param verbose A boolean to indicate if the function should print messages to the user.
  * @return int 0 if the function was executed correctly, 1 otherwise.
  */
-static int read_reference(std::string fasta_ref_gemome, std::unordered_map<std::string, std::string> &chromosomes){
+static int read_reference(std::string fasta_ref_gemome, std::unordered_map<std::string, std::string> &chromosomes, const bool verbose = false){
 
     // open the fasta file
     faidx_t *fai = fai_load(fasta_ref_gemome.c_str());
@@ -66,8 +67,9 @@ static int read_reference(std::string fasta_ref_gemome, std::unordered_map<std::
         return 1;
     }
 
-    // print a message to the user
-    std::cout << "Reading the referece FASTA file..." << std::endl;
+    if (verbose){
+        std::cout << "Reading the referece FASTA file..." << std::endl;
+    }
 
     // get the number of sequences in the fasta file
     int n_seqs = faidx_nseq(fai);
@@ -108,9 +110,10 @@ static int read_reference(std::string fasta_ref_gemome, std::unordered_map<std::
  * 
  * @param bed_file The name of the BED file.
  * @param primers A vector of Primer objects to store the information of the primers.
+ * @param verbose A boolean to indicate if the function should print messages to the user.
  * @return int 0 if the function was executed correctly, 1 otherwise.
  */
-static int read_primer(std::string bed_file, std::vector<Primer> &primers){
+static int read_primer(std::string bed_file, std::vector<Primer> &primers, const bool verbose = false){
 
     // open the BED file
     std::ifstream bed(bed_file);
@@ -121,9 +124,10 @@ static int read_primer(std::string bed_file, std::vector<Primer> &primers){
         return 1;
     }
 
-    // print a message to the user
-    std::cout << "Reading the primer BED file..." << std::endl;
-
+    if (verbose){
+        std::cout << "Reading the primer BED file..." << std::endl;
+    }
+    
     // define a string to store the current line
     std::string line;
 
@@ -182,28 +186,32 @@ static int read_primer(std::string bed_file, std::vector<Primer> &primers){
 
 
 /**
- * @brief Write the amplicons to a FASTA file.
+ * @brief Write the amplicons to a FASTA file or COUT.
  * 
  * @param amplicons_fasta The name of the FASTA file.
  * @param amplicons A vector of strings containing the amplicons.
  * @param vec_reps A vector of integers containing the number of replications for each amplicon.
+ * @param write_to_stdout A boolean to indicate if the amplicons should be written to stdout.
  * @return int 0 if the function was executed correctly, 1 otherwise.
  */
-static int write_amplicons(std::string amplicons_fasta,
-                           std::vector<std::string> &amplicons,
-                           std::vector<int> &vec_reps){
+static int write_amplicons(const char*                    amplicons_fasta,
+                           const std::vector<std::string> &amplicons,
+                           const std::vector<int>         &vec_reps,
+                           const bool                     write_to_stdout = true){
 
     // open the FASTA file
-    std::ofstream fasta(amplicons_fasta);
+    std::ofstream fasta;
 
-    // check if the file was opened correctly
-    if (!fasta.is_open()){
-        std::cerr << "Error opening the FASTA file." << std::endl;
-        return 1;
+    if (!write_to_stdout){
+        fasta = std::ofstream(amplicons_fasta);
+
+        if (!fasta.is_open()){
+            std::cerr << "Error opening the FASTA file." << std::endl;
+            return 1;
+        }
+
+        std::cout << "Writing the amplicons to a FASTA file..." << std::endl;
     }
-
-    // print a message to the user
-    std::cout << "Writing the amplicons to a FASTA file..." << std::endl;
 
     // cast the size of the amplicons vector an int
     int n_amplicons = amplicons.size();
@@ -213,9 +221,16 @@ static int write_amplicons(std::string amplicons_fasta,
     int count_per_insert = 1;
 
     // loop over the amplicons and write them to the FASTA file
-    for (int idx_amplicon = 0; idx_amplicon < n_amplicons; idx_amplicon++){
-        fasta << ">amplicon_" << idx_insert << "_" << idx_amplicon << std::endl;
-        fasta << amplicons[idx_amplicon] << std::endl;
+    for (int idx_amplicon = 0; idx_amplicon < n_amplicons; ++idx_amplicon){
+
+        if (!write_to_stdout){
+            fasta << ">amplicon_" << idx_insert << "_" << idx_amplicon << std::endl;
+            fasta << amplicons[idx_amplicon] << std::endl;
+        }
+        else{
+            std::cout << ">amplicon_" << idx_insert << "_" << idx_amplicon << std::endl;
+            std::cout << amplicons[idx_amplicon] << std::endl;
+        }
 
         // check if the current amplicon is the last one of the current insert
         if (count_per_insert == vec_reps[idx_insert]){
@@ -228,11 +243,12 @@ static int write_amplicons(std::string amplicons_fasta,
         }
     }
 
-    // close the FASTA file
-    fasta.close();
+    if (!write_to_stdout){
+        // close the FASTA file
+        fasta.close();
+    }
 
     return 0;
-
 }
 
 
