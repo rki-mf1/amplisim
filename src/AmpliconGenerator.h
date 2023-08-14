@@ -24,7 +24,7 @@ class AmpliconGenerator{
         PrimerIndex *primer_index;
     public:
         AmpliconGenerator(std::vector<Primer> &primers, std::unordered_map<std::string, std::string> &chromosomes, PrimerIndex &primer_index);
-        int generate_amplicons(std::vector<std::string> &amplicons);
+        int generate_amplicons(std::vector<std::string> &amplicons, const bool verbose = false);
         std::vector<int> get_vec_reps();
 };
 

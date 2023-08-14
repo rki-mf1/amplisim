@@ -19,14 +19,17 @@ AmpliconGenerator::AmpliconGenerator(std::vector<Primer> &primers, std::unordere
  * @brief Generate amplicons from a set of primers.
  * 
  * @param amplicons A vector of strings to store the amplicons.
+ * @param verbose A boolean to print messages to the user.
  * @return int 0 if the function was executed correctly, 1 otherwise.
  */
-int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons){
+int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons, const bool verbose){
 
     assert(amplicons.empty());
 
     // print a message to the user
-    std::cout << "Generating amplicons..." << std::endl;
+    if (verbose){
+        std::cout << "Generating amplicons..." << std::endl;
+    }
 
     // iterate over the chromoseomes
     for(auto &chromosome : *this->chromosomes){
@@ -42,7 +45,9 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons){
         // for the chromosome name give me the runlength from the primer index
         int runlength = this->primer_index->get_runlength(chromosome.first);
 
+#ifdef DEBUG
         assert(runlength > 0);
+#endif
 
         // iterate over the vector of primers from the index to the index plus the runlength
         for (int i = index; i < index + runlength; i++){
@@ -51,9 +56,11 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons){
             int left_start = this->primers->at(i).start_left;
             int left_end = this->primers->at(i).end_left;
 
+#ifdef DEBUG
             assert(left_start < left_end);
             assert(left_end < this->chromosomes->at(chromosome.first).length());
             assert(left_start > 0);
+#endif
 
             // get the sequence of the left primer
             std::string left_primer = this->chromosomes->at(chromosome.first).substr(left_start, left_end - left_start);
@@ -62,9 +69,11 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons){
             int right_start = this->primers->at(i).start_right;
             int right_end = this->primers->at(i).end_right;
 
+#ifdef DEBUG
             assert(right_start < right_end);
             assert(right_end < this->chromosomes->at(chromosome.first).length());
             assert(right_start > 0);
+#endif
 
             // get the sequence of the right primer
             std::string right_primer = this->chromosomes->at(chromosome.first).substr(right_start, right_end - right_start);
