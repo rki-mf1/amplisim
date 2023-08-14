@@ -6,9 +6,11 @@
  * @brief Constructor of the PrimerIndex class.
  * 
  * @param primers A pointer to a vector of Primer objects.
+ * @param verbose A boolean to print messages to the user.
  */
-PrimerIndex::PrimerIndex(std::vector<Primer> &primers){
+PrimerIndex::PrimerIndex(std::vector<Primer> &primers, const bool verbose){
     this->primers = &primers;
+    this->verbose = verbose;
 
     // check that the pointer points to valid memory
     assert(this->primers != nullptr);
@@ -22,9 +24,9 @@ PrimerIndex::PrimerIndex(std::vector<Primer> &primers){
  * @brief Create an index for the primers.
  * 
  * @details The index is stored in two unordered maps: one for the indices and one for the runlengths.
- *          The indices unordered map stores the index of the first primer of each chromosome.
- *          The runlengths unordered map stores the number of primers of each chromosome.
- *          The chromosomes must be sorted in contiguous blocks in the BED file.
+ *          The (unordered map) indices - stores the index of the first primer of each chromosome.
+ *          The (unordered map) runlengths - stores the number of primers of each chromosome.
+ *          IMPORTANT: The chromosomes must be sorted in contiguous blocks in the BED file.
  * @return int 0 if the index is created successfully, 1 otherwise.
  *          If the vector of primers is empty, the function returns 1.
  *          If a chromosome appears in multiple discontinuous blocks in the BED file, the function returns 1.
@@ -38,20 +40,20 @@ int PrimerIndex::create_primer_index(){
     }
 
     // print a message to the user
-    std::cout << "Creating the primer index..." << std::endl;
+    if (this->verbose){
+        std::cout << "Creating the primer index..." << std::endl;
+    }
 
     // store an unordered set of chromosomes
     std::unordered_set<std::string> unique_chromosomes;
 
     // define a string to store the current chromosome
-    std::string chr = "";
+    std::string chr;
 
     int previousChromIndex = 0;
 
-    // cast the size of the vector of primers to an integer
-    int n_primers = (int) this->primers->size();
-    
     // loop over the primers
+    int n_primers = (int) this->primers->size();
     for (int i = 0; i < n_primers; i++){
 
         // get the chromosome of the current primer
@@ -72,8 +74,10 @@ int PrimerIndex::create_primer_index(){
             // store the index of the current primer in the indices unordered map
             this->indices[current_chr] = i;
 
-            // store the runlength of the previous primer in the runlengths unordered map
-            this->runlengths[chr] = i - previousChromIndex;
+            // store the runlength of the previous primer in the runlengths unordered map, if chr is not empty
+            if (!chr.empty()){
+                this->runlengths[chr] = i - previousChromIndex;
+            }
 
             // store the index of the current primer in the previousChromIndex variable
             previousChromIndex = i;

@@ -17,11 +17,12 @@
  */
 class PrimerIndex{
     private:
+        bool verbose;
         std::vector<Primer> *primers;
         std::unordered_map<std::string, int> indices;
         std::unordered_map<std::string, int> runlengths;
     public:
-        PrimerIndex(std::vector<Primer> &primers);
+        PrimerIndex(std::vector<Primer> &primers, const bool verbose = false);
         int get_index(std::string chr);
         int get_runlength(std::string chr);
     
