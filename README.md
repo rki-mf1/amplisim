@@ -1,6 +1,18 @@
 [![build](https://github.com/krannich479/amplisim/actions/workflows/build.yml/badge.svg)](https://github.com/krannich479/amplisim/actions/workflows/build.yml)
 # amplisim
-Plain simple amplicon sequence simulator for in-silico genomic sequencing assays
+**Plain simple <ins>ampli</ins>con sequence <ins>sim</ins>ulator for in-silico genomic sequencing assays**
+
+1. [Requirements](#requirements)
+2. [Installation](#installation)
+3. [Operation](#operation)
+4. [Input and output](#input-and-output)
+
+## Requirements
+
+TL;DR: no external requirements needed if you are using the pre-build binary.
+<details><summary> 🛠️ Details to build from source </summary>
+The <i>amplisim</i> software is intended for 64-bit POSIX compliant operating systems and was tested successfully under Ubuntu 22.04 LTS and macOS v12.5.1 (Monterey).
+Building <i>amplisim</i> from source requires libraries for <i>lzma</i>, <i>libbz2</i> and <i>libcurl</i> on your system in order to compile <i>htslib</i>.</details>
 
 ## Installation
 ### Build from source
@@ -12,14 +24,14 @@ make -C lib/htslib
 make
 ```
 <details><summary> 🍎 macOS system dependencies </summary>
-If you are working on an Apple workstation with macOS and want to build amplisim from source you might miss system libraries for openssl and argp. These can be installed using the brew package manager via 
+If you are working on an Apple workstation with macOS and want to build <i>amplisim</i> from source you might miss system libraries for <i>openssl</i> and <i>argp</i>. These can be installed using the brew package manager via 
   
 ```
 brew install glib-openssl argp-standalone
 ```
 </details>
 
-### Test your build
+### Test your build (optional)
 A quick and simple way to test your software binary is to download and run amplisim on some public Sars-Cov-2 data.
 
 ```
@@ -30,4 +42,37 @@ sed 's/>ENA|MN908947|MN908947.3 Severe acute respiratory syndrome coronavirus 2 
 cd ..
 ./amplisim testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
 ```
+
+## Operation
+### Help page
+The most concise way to get familiar with _amplisim_ is to inspect the help page via `amplisim --help`. This will display
+
+```
+Usage: amplisim [OPTION...] REFERENCE PRIMERS
+amplisim -- a program to simulate amplicon sequences from a reference genome
+
+  -o, --output=FILE          Output to FILE instead of standard output
+  -s, --seed=INT             Set a random seed
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+  -V, --version              Print program version
+
+Mandatory or optional arguments to long options are also mandatory or optional
+for any corresponding short options.
+
+Report bugs to https://github.com/rki-mf1/amplisim/issues.
+```
+
+### Minimal working examples
+The minimal command to run _amplisim_ is to provide a reference genome in FASTA format and a set of primers in BED format (see chapter [Input and output](#input-and-output) for more details).
+By default, _amplisim_ prints the amplicons sequences to the standard output, s.t. the user can either store the sequences or forward them to the next program.
+```
+amplisim <my_reference.fasta> <my_primers.bed> > <my_amplicons.fasta>
+```
+If you are just interested in the resulting FASTA file you can directly use the `-o` option.
+```
+amplisim -o <my_amplicons.fasta> <my_reference.fasta> <my_primers.bed>
+```
+
+## Input and output
 
