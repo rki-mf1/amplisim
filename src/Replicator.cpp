@@ -60,8 +60,8 @@ int Replicator::replicate_with_errors(std::string &insert,
     }
 
     // get a random integer from a normal distribution
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    const unsigned int seed = rand() % UINT_MAX;
+    std::mt19937 gen(seed);     /* Mersenne Twister pseudo-random generator */
     std::normal_distribution<> d(nb_replications, nb_replications_variance);
     int nb_replications_random = d(gen);
 

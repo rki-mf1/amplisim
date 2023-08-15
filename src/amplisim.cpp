@@ -20,7 +20,8 @@ int main(int argc, char *argv[]){
     if (arguments.seed == -1){
         arguments.seed = time(NULL);
     }
-    srand( (unsigned) arguments.seed );
+    unsigned seed = (unsigned) arguments.seed;
+    srand(seed);
 
     std::string ref_genome = arguments.args[0];
     std::string bed_file   = arguments.args[1];
