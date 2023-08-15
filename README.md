@@ -75,7 +75,7 @@ amplisim -o <my_amplicons.fasta> <my_reference.fasta> <my_primers.bed>
 ```
 
 ## Input and output
-### The primer file
+### The primer file (input)
 The `PRIMERS` input file is a plain tab-separated textfile with pre-defined columns.
 The format of the `PRIMERS` file required by _amplisim_ has to comply with the following properties:
 1. The BED format specification. I.e. the first column is a chromosome identifier, and the second and third column are the boundary indexes of a range in the chromosome. The second column is the start index of a primer and the third column is the end index of a primer. The start index should always be strictly smaller than the end index.
@@ -85,8 +85,8 @@ The format of the `PRIMERS` file required by _amplisim_ has to comply with the f
 These format properties generally comply with the definitions in [samtools](http://www.htslib.org/doc/samtools-ampliconstats.html#DESCRIPTION) but are slightly more stringent as _amplisim_ currently does not allow alternative primers in a pair.
 Directly fitting examples can be found in the artic-network repository for virus primer schemes, e.g. the [primers for Sars-Cov-2](https://github.com/artic-network/primer-schemes/blob/master/nCoV-2019/V5.3.2/SARS-CoV-2.primer.bed).
 
-### The amplicons file
-The `<my_amplicons.fasta>` output file is a plain FASTA format compliant textfile.
+### The amplicons (output)
+The output of _amplisim_ is a stream or plain textfile in the FASTA format.
 The header line of each amplicon sequence provides the following information:<br>
 ```
 >amplicon_<amplicon_index>_<replicate_index>
