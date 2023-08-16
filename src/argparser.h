@@ -12,8 +12,8 @@
 
 
 const char *argp_program_version = VERSION; // defined in Makefile
-const char *argp_program_bug_address = "";
-static char doc[] = "amplisim -- a program to simulate amplicon sequencing data";
+const char *argp_program_bug_address = "https://github.com/rki-mf1/amplisim/issues";
+static char doc[] = "amplisim -- a program to simulate amplicon sequences from a reference genome";
 static char args_doc[] = "REFERENCE PRIMERS";
 
 static struct argp_option options[] = {
