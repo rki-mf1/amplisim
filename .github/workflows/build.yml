@@ -37,7 +37,7 @@ jobs:
       - name: Set up system and build on macOS
         if: runner.os == 'macOS'
         run: |
-          brew install xz curl glib-openssl argp-standalone
+          brew install xz curl glib-openssl argp-standalone md5sha1sum
           git submodule init
           git submodule update --init --recursive
           mkdir build
@@ -52,4 +52,5 @@ jobs:
           sed 's/>ENA|MN908947|MN908947.3 Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1, complete genome./>MN908947.3/g' MN908947.3 > MN908947.3.fasta
           cd ..
           ./amplisim -s 479 -o testdata/amplicons.fasta testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
+          md5sum testdata/amplicons.fasta
           echo '3ce2bb236e611f5d5e569d68b631bd81  testdata/amplicons.fasta' | md5sum -c
