@@ -92,3 +92,6 @@ The header line of each amplicon sequence provides the following information:<br
 >amplicon_<amplicon_index>_<replicate_index>
 ```
 where _<amplicon_index>_ is the _i_-th index (i=0...n-1) of the amplicons defined by _n_ primer pairs and _<replicate_index>_ is a unique index across all replicates of all amplicons.
+See schematic below.
+
+![Primer and amplicons scheme](img/primers-amplicons-replicates.drawio.svg)
