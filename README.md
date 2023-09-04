@@ -6,6 +6,7 @@
 2. [Installation](#installation)
 3. [Operation](#operation)
 4. [Input and output](#input-and-output)
+5. [Help](#help)
 
 ## Requirements
 
@@ -79,11 +80,14 @@ amplisim -o <my_amplicons.fasta> <my_reference.fasta> <my_primers.bed>
 The `PRIMERS` input file is a plain tab-separated textfile with pre-defined columns.
 The format of the `PRIMERS` file required by _amplisim_ has to comply with the following properties:
 1. The BED format specification. I.e. the first column is a chromosome identifier, and the second and third column are the boundary indexes of a range in the chromosome. The second column is the start index of a primer and the third column is the end index of a primer. The start index should always be strictly smaller than the end index.
-2. A pair of primers (forward and reverse primer) is expencted to be in consecutive lines in the file.
+2. A pair of primers (forward and reverse primer) is expected to be in consecutive lines in the file.
 3. The chromosome identifiers have to be arranged in blocks. I.e. irrespective of the order of the chromosomes, all primers of a particular chromosome have to occur consecutively in the file.
 
 These format properties generally comply with the definitions in [samtools](http://www.htslib.org/doc/samtools-ampliconstats.html#DESCRIPTION) but are slightly more stringent as _amplisim_ currently does not allow alternative primers in a pair.
 Directly fitting examples can be found in the artic-network repository for virus primer schemes, e.g. the [primers for Sars-Cov-2](https://github.com/artic-network/primer-schemes/blob/master/nCoV-2019/V5.3.2/SARS-CoV-2.primer.bed).
+
+### The reference file (input)
+The `REFERENCE` input file is a standard textfile in FASTA format which contains one or multiple records (chromosomes).
 
 ### The amplicons (output)
 The output of _amplisim_ is a stream or plain textfile in the FASTA format.
@@ -92,3 +96,15 @@ The header line of each amplicon sequence provides the following information:<br
 >amplicon_<amplicon_index>_<replicate_index>
 ```
 where _<amplicon_index>_ is the _i_-th index (i=0...n-1) of the amplicons defined by _n_ primer pairs and _<replicate_index>_ is a unique index across all replicates of all amplicons.
+See schematic below.
+
+![Primer and amplicons scheme](img/primers-amplicons-replicates.drawio.svg)
+
+## Help
+For questions about amplisim, feature requests and bug reports please refer to the [issues](https://github.com/rki-mf1/amplisim/issues) section of this repository.
+
+
+
+<br>
+
+[back to top](#amplisim)
