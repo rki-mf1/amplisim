@@ -22,12 +22,12 @@ AmpliconGenerator::AmpliconGenerator(std::vector<Primer> &primers, std::unordere
  * @param verbose A boolean to print messages to the user.
  * @return int 0 if the function was executed correctly, 1 otherwise.
  */
-int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons, const bool verbose){
+int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons, arguments &arguments){
 
     assert(amplicons.empty());
 
     // print a message to the user
-    if (verbose){
+    if (arguments.verbose){
         std::cout << "Generating amplicons..." << std::endl;
     }
 
@@ -87,7 +87,7 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons, c
             Replicator replicator(0.01);
             std::vector<std::string> replicates;
             int reps;
-            int ret = replicator.replicate_with_errors(insert, replicates, 20, 2, reps);
+            int ret = replicator.replicate_with_errors(insert, replicates, arguments.mean, arguments.sd, reps);
             if (ret != 0){
                 std::cerr << "Error replicating the insert sequence." << std::endl;
                 return 1;
