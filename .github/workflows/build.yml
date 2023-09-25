@@ -51,8 +51,15 @@ jobs:
           wget https://www.ebi.ac.uk/ena/browser/api/fasta/MN908947.3
           sed 's/>ENA|MN908947|MN908947.3 Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1, complete genome./>MN908947.3/g' MN908947.3 > MN908947.3.fasta
           cd ..
-          ./amplisim -s 479 -o testdata/amplicons.fasta testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
-          ./amplisim -s 479 -m 20 -n 2 -o testdata/amplicons.repl.fasta testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
+          
+          run1="./amplisim -s 479 -o testdata/amplicons.fasta testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed"
+          printf "$run1"
+          $run1
+
+          run2="./amplisim -s 479 -m 20 -n 2 -o testdata/amplicons.repl.fasta testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed"
+          printf "$run2"
+          $run2
+                    
           cmp testdata/amplicons.fasta testdata/amplicons.repl.fasta || echo "File with default parameters is different." 
 
       - name: Verify md5sum (macOS)

@@ -46,15 +46,15 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state){
             assert(arguments->seed > 0);
             break;
         case 'm':
-            arguments->seed = atoi(arg);
+            arguments->mean = atoi(arg);
             assert(arguments->mean > 0);
             break;
         case 'n':
-            arguments->seed = atoi(arg);
+            arguments->sd = atoi(arg);
             assert(arguments->sd >= 0);
             break;
         case 'd':
-            arguments->seed = atof(arg);
+            arguments->dropout = atof(arg);
             assert(arguments->dropout >= 0);
             assert(arguments->dropout < 1);
             break;
