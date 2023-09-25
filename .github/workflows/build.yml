@@ -63,6 +63,11 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install coreutils
+          md5sum testdata/amplicons.fasta
           md5sum testdata/amplicons.fasta | md5sum -c test/sarscov2_s479.macos.md5
 
+          md5sum testdata/amplicons.2.fasta
+          md5sum testdata/amplicons.2.fasta | md5sum -c test/sarscov2_s479.macos.md5
+
+          md5sum testdata/amplicons.3.fasta
           md5sum testdata/amplicons.3.fasta | md5sum -c test/sarscov2_s479.macos.md5
