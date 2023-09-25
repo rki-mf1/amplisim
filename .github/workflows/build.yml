@@ -65,7 +65,4 @@ jobs:
           brew install coreutils
           md5sum testdata/amplicons.fasta | md5sum -c test/sarscov2_s479.macos.md5
 
-          if ! md5sum testdata/amplicons.3.fasta | md5sum -c test/sarscov2_s479.macos.md5
-          then
-            echo "md5sum does not match. That's correct."
-          fi
+          md5sum testdata/amplicons.3.fasta | md5sum -c test/sarscov2_s479.macos.md5
