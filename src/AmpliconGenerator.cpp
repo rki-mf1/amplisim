@@ -52,6 +52,10 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons, a
         // iterate over the vector of primers from the index to the index plus the runlength
         for (int i = index; i < index + runlength; i++){
 
+            // amplicon dropout chance here
+            double p_dropout = (double) rand() / RAND_MAX; // [0,1]
+            if (p_dropout < arguments.dropout) continue;
+
             // get the start and end position of the left primer
             int left_start = this->primers->at(i).start_left;
             int left_end = this->primers->at(i).end_left;

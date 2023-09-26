@@ -19,7 +19,7 @@ static struct argp_option options[] = {
     {"seed",    's', "INT" , 0, "Set a random seed"},
     {"mean",    'm', "INT" , 0, "Set the mean number of replicates per amplicon"},
     {"sd",      'n', "INT" , 0, "Set the standard deviation for the mean number of replicates per amplicon"},
-    {"dropout", 'd', "INT" , 0, "Set the likelihood for an amplicon dropout [0,1)"},
+    {"dropout", 'x', "INT" , 0, "Set the likelihood for an amplicon dropout [0,1)"},
     {0}
 };
 
@@ -53,7 +53,7 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state){
             arguments->sd = atoi(arg);
             assert(arguments->sd >= 0);
             break;
-        case 'd':
+        case 'x':
             arguments->dropout = atof(arg);
             assert(arguments->dropout >= 0);
             assert(arguments->dropout < 1);
