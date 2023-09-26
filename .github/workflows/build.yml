@@ -52,28 +52,33 @@ jobs:
           sed 's/>ENA|MN908947|MN908947.3 Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1, complete genome./>MN908947.3/g' MN908947.3 > MN908947.3.fasta
           cd ..
           
-          ./amplisim -s 479            -o testdata/amplicons.fasta   testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
+          ./amplisim -s 479            -o testdata/amplicons.1.fasta   testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
           ./amplisim -s 479 -m 20 -n 2 -o testdata/amplicons.2.fasta testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
                     
-          cmp testdata/amplicons.fasta testdata/amplicons.2.fasta || echo "Comparison failed. File with default parameters is different."
+          cmp testdata/amplicons.1.fasta testdata/amplicons.2.fasta || echo "Comparison failed. File with default parameters is different."
 
           ./amplisim -s 400            -o testdata/amplicons.3.fasta testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
+
+          ./amplisim -s 479 -x 0.00001 -o testdata/amplicons.4.fasta testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
 
       - name: Verify md5sum on macOS
         if: runner.os == 'macOS'
         run: |
           brew install coreutils
-          md5sum testdata/amplicons.fasta
-          md5sum testdata/amplicons.fasta | md5sum -c test/sarscov2_s479.macos.md5
+          
+          md5sum testdata/amplicons.1.fasta
+          md5sum testdata/amplicons.2.fasta
+          md5sum testdata/amplicons.3.fasta
+          md5sum testdata/amplicons.4.fasta
+          
+          md5sum -c test/sarscov2.macos.md5
 
       - name: Verify md5sum on Ubuntu
         if: runner.os == 'Linux'
         run: |
-          md5sum testdata/amplicons.fasta
-          md5sum testdata/amplicons.fasta   | md5sum -c test/sarscov2.ubuntu.md5
-
+          md5sum testdata/amplicons.1.fasta
           md5sum testdata/amplicons.2.fasta
-          md5sum testdata/amplicons.2.fasta | md5sum -c test/sarscov2.ubuntu.md5
-
           md5sum testdata/amplicons.3.fasta
-          md5sum testdata/amplicons.3.fasta | md5sum -c test/sarscov2.ubuntu.md5
+          md5sum testdata/amplicons.4.fasta
+
+          md5sum -c test/sarscov2.ubuntu.md5
