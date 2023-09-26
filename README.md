@@ -1,4 +1,6 @@
+![Release](https://img.shields.io/github/v/release/rki-mf1/amplisim)
 [![build](https://github.com/krannich479/amplisim/actions/workflows/build.yml/badge.svg)](https://github.com/krannich479/amplisim/actions/workflows/build.yml)
+![Stars](https://img.shields.io/github/stars/rki-mf1/amplisim?style=social)
 # amplisim
 **Plain simple <ins>ampli</ins>con sequence <ins>sim</ins>ulator for in-silico genomic sequencing assays**
 
