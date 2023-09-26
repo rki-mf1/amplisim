@@ -19,7 +19,7 @@ static struct argp_option options[] = {
     {"seed",    's', "INT" , 0, "Set a random seed"},
     {"mean",    'm', "INT" , 0, "Set the mean number of replicates per amplicon"},
     {"sd",      'n', "INT" , 0, "Set the standard deviation for the mean number of replicates per amplicon"},
-    {"dropout", 'x', "INT" , 0, "Set the likelihood for an amplicon dropout [0,1)"},
+    {"dropout", 'x', "INT" , 0, "Set the likelihood for an amplicon dropout [0,1]"},
     {0}
 };
 

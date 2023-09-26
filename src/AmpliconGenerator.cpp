@@ -54,7 +54,10 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons, a
 
             // amplicon dropout chance here
             double p_dropout = (double) rand() / RAND_MAX; // [0,1]
-            if (p_dropout < arguments.dropout) continue;
+            if (p_dropout < arguments.dropout){
+                if (arguments.verbose) std::cout << "Amplicon primer pair skipped." << std::endl;
+                continue;
+            }
 
             // get the start and end position of the left primer
             int left_start = this->primers->at(i).start_left;
