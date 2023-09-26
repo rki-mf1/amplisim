@@ -95,11 +95,13 @@ int Replicator::replicate_with_errors(std::string &insert,
                 
             double rand_num = (double) rand() / RAND_MAX;
             
+            // no change in nucleotide
             if (rand_num > this->error_rate) {
                 replicate += rand_insert[i];
                 continue;
             }
 
+            // change in nucleotide - rand_num will determine whether MM/INS/DEL is introduced
             rand_num = (double) rand() / RAND_MAX;
             
             if (rand_num < 0.8) {           // substitution, add random base
@@ -107,7 +109,7 @@ int Replicator::replicate_with_errors(std::string &insert,
             } else if (rand_num < 0.9) {    // insertion, add original base + random base
                 replicate += rand_insert[i];
                 replicate += "ACGT"[rand() % 4];
-            } else {   // deletion, skip original base
+            } else {                        // deletion, skip original base
                 continue;
             }
 

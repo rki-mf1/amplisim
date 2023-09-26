@@ -8,12 +8,13 @@
 
 
 
-const char *argp_program_version = VERSION; // defined in Makefile
-const char *argp_program_bug_address = "https://github.com/rki-mf1/amplisim/issues";
+const char *argp_program_version = VERSION; // INFO for the argument parser - defined in Makefile
+const char *argp_program_bug_address = "https://github.com/rki-mf1/amplisim/issues"; // INFO for the argument parser
 
 int main(int argc, char *argv[]){
 
     struct arguments arguments;
+    // defaults for CLI parameters
     arguments.output_file = NULL;
     arguments.seed = -1;
     arguments.mean = 20;
