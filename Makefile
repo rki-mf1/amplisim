@@ -27,7 +27,7 @@ endif
 
 # Date and version
 DATE := on $(shell git log --pretty=format:"%cd" --date=iso | cut -f 1,2 -d " " | head -n 1)
-VERSION := 0.1.0
+VERSION := 0.2.0
 override CXXFLAGS+=-DDATE=\""$(DATE)"\" -DVERSION=\""$(VERSION)"\"
 
 .PHONY: all

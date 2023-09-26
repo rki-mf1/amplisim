@@ -8,11 +8,18 @@
 
 
 
+const char *argp_program_version = VERSION; // INFO for the argument parser - defined in Makefile
+const char *argp_program_bug_address = "https://github.com/rki-mf1/amplisim/issues"; // INFO for the argument parser
+
 int main(int argc, char *argv[]){
 
     struct arguments arguments;
+    // defaults for CLI parameters
     arguments.output_file = NULL;
     arguments.seed = -1;
+    arguments.mean = 20;
+    arguments.sd = 2;
+    arguments.dropout = 0.0;
     
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
@@ -29,10 +36,13 @@ int main(int argc, char *argv[]){
     // print a message to the user
     if (arguments.verbose){
         std::cout << "=== Arguments =====" << std::endl;
-        std::cout << "Reference genome: " << ref_genome << std::endl;
-        std::cout << "Primer BED file : " << bed_file   << std::endl;
-        std::cout << "Seed            : " << arguments.seed << std::endl;
-        std::cout << "Output file     : " << arguments.output_file << std::endl;
+        std::cout << "Reference genome  : " << ref_genome << std::endl;
+        std::cout << "Primer BED file   : " << bed_file   << std::endl;
+        std::cout << "Output file       : " << arguments.output_file << std::endl;
+        std::cout << "Seed              : " << arguments.seed << std::endl;
+        std::cout << "Mean #replicates  : " << arguments.mean << std::endl;
+        std::cout << "Sd #replicates    : " << arguments.sd << std::endl;
+        std::cout << "Dropout likelihood: " << arguments.dropout << std::endl;
         std::cout << "===================" << std::endl << std::endl;
         std::cout << "\033[32;40mStarting\033[0m amplisim..." << std::endl;
     }
@@ -63,7 +73,7 @@ int main(int argc, char *argv[]){
 
     // create an amplicons
     AmpliconGenerator amplicon_generator(primers, chromosomes, primer_index);
-    ret = amplicon_generator.generate_amplicons(amplicons, arguments.verbose);
+    ret = amplicon_generator.generate_amplicons(amplicons, arguments);
     if (ret != 0){
         std::cerr << "Error generating the amplicons." << std::endl;
         return 1;

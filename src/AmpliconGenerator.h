@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <cassert>
 
+#include "argparser.h"
 #include "Primer.h"
 #include "PrimerIndex.h"
 #include "Replicator.h"
@@ -24,7 +25,7 @@ class AmpliconGenerator{
         PrimerIndex *primer_index;
     public:
         AmpliconGenerator(std::vector<Primer> &primers, std::unordered_map<std::string, std::string> &chromosomes, PrimerIndex &primer_index);
-        int generate_amplicons(std::vector<std::string> &amplicons, const bool verbose = false);
+        int generate_amplicons(std::vector<std::string> &amplicons, arguments &arguments);
         std::vector<int> get_vec_reps();
 };
 

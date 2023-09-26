@@ -22,12 +22,12 @@ AmpliconGenerator::AmpliconGenerator(std::vector<Primer> &primers, std::unordere
  * @param verbose A boolean to print messages to the user.
  * @return int 0 if the function was executed correctly, 1 otherwise.
  */
-int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons, const bool verbose){
+int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons, arguments &arguments){
 
     assert(amplicons.empty());
 
     // print a message to the user
-    if (verbose){
+    if (arguments.verbose){
         std::cout << "Generating amplicons..." << std::endl;
     }
 
@@ -51,6 +51,13 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons, c
 
         // iterate over the vector of primers from the index to the index plus the runlength
         for (int i = index; i < index + runlength; i++){
+
+            // amplicon dropout chance here
+            double p_dropout = (double) rand() / RAND_MAX; // [0,1]
+            if (p_dropout < arguments.dropout){
+                if (arguments.verbose) std::cout << "Amplicon primer pair skipped." << std::endl;
+                continue;
+            }
 
             // get the start and end position of the left primer
             int left_start = this->primers->at(i).start_left;
@@ -87,7 +94,7 @@ int AmpliconGenerator::generate_amplicons(std::vector<std::string> &amplicons, c
             Replicator replicator(0.01);
             std::vector<std::string> replicates;
             int reps;
-            int ret = replicator.replicate_with_errors(insert, replicates, 20, 2, reps);
+            int ret = replicator.replicate_with_errors(insert, replicates, arguments.mean, arguments.sd, reps);
             if (ret != 0){
                 std::cerr << "Error replicating the insert sequence." << std::endl;
                 return 1;
