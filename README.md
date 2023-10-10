@@ -1,6 +1,7 @@
 ![Release](https://img.shields.io/github/v/release/rki-mf1/amplisim)
 [![build](https://github.com/krannich479/amplisim/actions/workflows/build.yml/badge.svg)](https://github.com/krannich479/amplisim/actions/workflows/build.yml)
 ![Stars](https://img.shields.io/github/stars/rki-mf1/amplisim?style=social)
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/amplisim/README.html)
 # amplisim
 **Plain simple <ins>ampli</ins>con sequence <ins>sim</ins>ulator for in-silico genomic sequencing assays**
 
