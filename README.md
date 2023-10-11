@@ -66,8 +66,12 @@ The most concise way to get familiar with _amplisim_ is to inspect the help page
 Usage: amplisim [OPTION...] REFERENCE PRIMERS
 amplisim -- a program to simulate amplicon sequences from a reference genome
 
+  -m, --mean=INT             Set the mean number of replicates per amplicon
+  -n, --sd=INT               Set the standard deviation for the mean number of
+                             replicates per amplicon
   -o, --output=FILE          Output to FILE instead of standard output
   -s, --seed=INT             Set a random seed
+  -x, --dropout=INT          Set the likelihood for an amplicon dropout [0,1]
   -?, --help                 Give this help list
       --usage                Give a short usage message
   -V, --version              Print program version
