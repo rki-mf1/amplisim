@@ -13,12 +13,23 @@
 
 ## Requirements
 
-TL;DR: no external requirements needed if you are using the pre-build binary.
+TL;DR: no external requirements needed. Both the `--recursive` Github clone as well as the bioconda package should work out-of-the-box.
 <details><summary> 🛠️ Details to build from source </summary>
 The <i>amplisim</i> software is intended for 64-bit POSIX compliant operating systems and was tested successfully under Ubuntu 22.04 LTS and macOS v12.5.1 (Monterey).
-Building <i>amplisim</i> from source requires libraries for <i>lzma</i>, <i>libbz2</i> and <i>libcurl</i> on your system in order to compile <i>htslib</i>.</details>
+Building <i>amplisim</i> from source requires libraries for <i>lzma</i>, <i>libbz2</i> and <i>libcurl</i> on your system in order to compile <i>htslib</i>.
+Both Linux and masOS operating systems typically provide them via their respective package managers.
+</details>
 
 ## Installation
+### Build via conda
+```
+# create a new conda environment
+conda create --name amplisim
+# install the latest amplisim version from the bioconda channel
+conda install -c bioconda amplisim
+```
+Please note that the bioconda installation is currently only available for Linux operating systems.
+
 ### Build from source
 ```
 git clone --recursive https://github.com/Krannich479/amplisim.git
@@ -44,7 +55,7 @@ wget https://raw.githubusercontent.com/artic-network/primer-schemes/master/nCoV-
 wget https://www.ebi.ac.uk/ena/browser/api/fasta/MN908947.3
 sed 's/>ENA|MN908947|MN908947.3 Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1, complete genome./>MN908947.3/g' MN908947.3 > MN908947.3.fasta
 cd ..
-./amplisim testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
+amplisim testdata/MN908947.3.fasta testdata/SARS-CoV-2.primer.bed
 ```
 
 ## Operation
